@@ -49,7 +49,7 @@ def show_field_keys(measurement, db_name):
         value_list.append(field['fieldKey'])
 
     for single_value in list(set(value_list)):
-        select_value_list.append(f"""mean("{single_value}") as "{single_value}" """)
+        select_value_list.append(f"""sum("{single_value}") as "{single_value}" """)
 
     return ", ".join(select_value_list)
 
