@@ -10,7 +10,7 @@ influx-rp-generator
 
 Run Service with custom settings:
 ```
-export INFLUXDB_RP={"short_term": "1w_1m"}; influx-rp-generator
+export INFLUXDB_RP="{\"short_term\": \"1w_1m\"}"; influx-rp-generator
 ```
 
 Environment variables:

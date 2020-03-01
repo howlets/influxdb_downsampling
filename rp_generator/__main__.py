@@ -1,6 +1,6 @@
 from pytz import utc
 import logging
-from flask import Flask, Blueprint
+from flask import Blueprint
 import rp_generator.settings as settings
 from rp_generator.api.endpoints import ns as influx
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -24,7 +24,7 @@ def configure_app(flask_app):
 
 def initialize_app(flask_app):
     configure_app(flask_app)
-    blueprint = Blueprint('api', __name__, url_prefix='/api/v1')
+    blueprint = Blueprint('api', __name__, url_prefix='')
     api.init_app(blueprint)
     api.namespaces.clear()
     api.add_namespace(influx)
@@ -45,12 +45,12 @@ def schedule_jobs():
     scheduler = BackgroundScheduler()
     scheduler.configure(timezone=utc)
     scheduler.start()
-    scheduler.add_job(generate_rps, trigger='interval', seconds=30)
+    scheduler.add_job(generate_rps, trigger='interval', seconds=int(settings.RP_CHECK_TIME))
     logging.getLogger('apscheduler.executors.default').setLevel(logging.WARNING)
 
 
 def main():
-    log.info(msg=f"Starting Influx Proxy service on port: {settings.SERVER_PORT}")
+    log.info(msg=f"Starting Influx RP Generator service on port: {settings.SERVER_PORT}")
     app = create_app()
     schedule_jobs()
     app.run(

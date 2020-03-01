@@ -3,6 +3,7 @@ from influxdb import InfluxDBClient
 from urllib.parse import urlparse
 import traceback
 import rp_generator.settings as settings
+import json
 
 log = service_logger()
 
@@ -84,12 +85,11 @@ def _create_cq(rp_name, rp_settings, db_name, previous_rp):
 
 
 def generate_rps():
-    # rp_list = CONFIG['rp_mapping'].values()
     dbs_list = get_influx_dbs()
 
     for db_name in dbs_list:
         previous_rp = settings.INFLUXDB_DEFAULT_POLICY
-        for rp_name, rp_settings in settings.INFLUXDB_RP.items():
+        for rp_name, rp_settings in json.loads(settings.INFLUXDB_RP).items():
             if rp_name != settings.INFLUXDB_DEFAULT_POLICY:
                 try:
                     rp_duration = rp_settings.split("_")[0]
