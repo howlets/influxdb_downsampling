@@ -1,0 +1,12 @@
+apscheduler==3.6.3
+flask-cors==3.0.8
+requests==2.23.0
+pytest==5.3.5
+jsonschema==3.2.0
+CMRESHandler==1.0.0
+flask_restplus==0.13.0
+pytz==2019.3
+influxdb
+prometheus_client
+werkzeug==0.16.1
+flask==1.1.1
