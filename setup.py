@@ -51,6 +51,10 @@ setup(
         'Topic :: Software Development :: Libraries :: Application Frameworks',
         'Programming Language :: Python :: 3.8',
     ],
+    setup_requires=[
+        'pytest-runner',
+        'flake8'
+    ],
     keywords='',
     packages=find_packages(),
     install_requires=requirements,
