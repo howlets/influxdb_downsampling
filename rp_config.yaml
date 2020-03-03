@@ -1,0 +1,8 @@
+default_rp:
+  name: 'autogen'
+  duration: '7d'
+
+custom_rp:
+  - name: 'long_term'
+    duration: '360d'
+    aggregation: '5m'

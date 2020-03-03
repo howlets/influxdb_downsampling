@@ -10,3 +10,4 @@ influxdb
 prometheus_client
 werkzeug==0.16.1
 flask==1.1.1
+pyyaml==5.3

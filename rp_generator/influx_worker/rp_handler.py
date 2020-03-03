@@ -46,25 +46,26 @@ def show_field_keys(measurement, db_name):
     field_keys = [values for values in _influx_client().query(query, database=db_name)][0]
 
     for field in field_keys:
-        value_list.append(field['fieldKey'])
+        if field['fieldType'] != 'string':
+            value_list.append(field['fieldKey'])
 
     for single_value in list(set(value_list)):
-        select_value_list.append(f"""sum("{single_value}") as "{single_value}" """)
+        select_value_list.append(f"""mean("{single_value}") as "{single_value}" """)
 
     return ", ".join(select_value_list)
 
 
-def _create_cq(rp_name, rp_settings, db_name, previous_rp):
+def _create_cq(rp_name, aggr_period, db_name, previous_rp):
     measurement_list = get_measurements(db_name)
-    group_by = rp_settings.split("_")[1]
 
     for measurement in measurement_list:
         select_values = show_field_keys(measurement['name'], db_name)
+        print(select_values)
         cq_name = f"cq_{rp_name}_{measurement['name']}"
         query_create = f"""
         CREATE CONTINUOUS QUERY "{cq_name}" ON "{db_name}"
         BEGIN
-        SELECT {select_values} INTO "{db_name}"."{rp_name}"."{measurement['name']}" FROM {db_name}."{previous_rp}"."{measurement['name']}" GROUP BY time({group_by}), *
+        SELECT {select_values} INTO "{db_name}"."{rp_name}"."{measurement['name']}" FROM {db_name}."{previous_rp}"."{measurement['name']}" GROUP BY time({aggr_period}), *
         END """
 
         log.info(f"rp_name: {rp_name}, query_create: {query_create}, previous_rp: {previous_rp}")
@@ -84,19 +85,41 @@ def _create_cq(rp_name, rp_settings, db_name, previous_rp):
         log.info(f"Create CQ: cq_{rp_name}_{measurement['name']} for db:{db_name}")
 
 
+def days_to_hours(time_in_days):
+    duration_in_hours = int(time_in_days.replace('d', '')) * 24
+
+    return f'{duration_in_hours}h0m0s'
+
+
+def check_default_rp_duration(db_name):
+    rp_list = _influx_client().get_list_retention_policies(database=db_name)
+
+    for rp in rp_list:
+        if rp['name'] == settings.RP_CONFIG['default_rp']['name']:
+            if rp['duration'] != days_to_hours(settings.RP_CONFIG['default_rp']['duration']):
+                modify_default_rp = _influx_client().alter_retention_policy(
+                    name=rp['name'],
+                    database=db_name,
+                    duration=settings.RP_CONFIG['default_rp']['duration'],
+                    default=True
+                )
+                print(f"Duration of default RP: {rp['name']} has been changed to {settings.RP_CONFIG['default_rp']['duration']}\nResult: {modify_default_rp}")
+
+
 def generate_rps():
+    # TODO: Alter duration of RP if it was changed in Conf file
     dbs_list = get_influx_dbs()
 
     for db_name in dbs_list:
-        previous_rp = settings.INFLUXDB_DEFAULT_POLICY
-        for rp_name, rp_settings in json.loads(settings.INFLUXDB_RP).items():
-            if rp_name != settings.INFLUXDB_DEFAULT_POLICY:
+        check_default_rp_duration(db_name)
+        previous_rp = settings.RP_CONFIG['default_rp']['name']
+        for custom_rp in settings.RP_CONFIG['custom_rp']:
+            if custom_rp['name'] != settings.RP_CONFIG['default_rp']['name']:
                 try:
-                    rp_duration = rp_settings.split("_")[0]
-                    log.info(f"Create rp: {rp_name} for db: {db_name}")
-                    _influx_client().create_retention_policy(rp_name, rp_duration, 1, database=db_name)
-                    _create_cq(rp_name, rp_settings, db_name, previous_rp)
-                    previous_rp = rp_name
+                    log.info(f"Create rp: {custom_rp['name']} for db: {db_name}")
+                    _influx_client().create_retention_policy(custom_rp['name'], custom_rp['duration'], 1, database=db_name)
+                    _create_cq(custom_rp['name'], custom_rp['aggregation'], db_name, previous_rp)
+                    previous_rp = custom_rp['name']
                 except Exception as err:
                     log.error(f"Can`t generate generate_rps. ERROR: {err}. Stack: {traceback.format_exc()}")
                     continue
