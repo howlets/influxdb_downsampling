@@ -23,3 +23,5 @@ Environment variables:
 |INFLUXDB_DEFAULT_POLICY|Default retention policy which you are using|autogen|
 |INFLUXDB_RP|List of RP and continuous queries to create. Where long_term - name of the policy, 48w - duration of retention policy, 5m - aggregation period |"{\\"long_term\\": \\"48w_5m\\"}"|
 |RP_CHECK_TIME|How often need to check and update retention policies and CQ (in seconds)|30|
+
+Change DOC
