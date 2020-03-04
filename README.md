@@ -1,6 +1,8 @@
 Python version
 ```
 Please make sure that you are using Python version 3.8
+Centos: https://computingforgeeks.com/how-to-install-python-on-3-on-centos/
+Ubuntu: https://linuxize.com/post/how-to-install-python-3-8-on-ubuntu-18-04/
 ```
 
 Install service
