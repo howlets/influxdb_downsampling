@@ -41,19 +41,18 @@ tests_require = [],
 setup(
     name='influx-rp-generator',
     packages=find_packages(),
-    version='0.0.2',
+    version='0.0.3',
     license='Apache License 2.0',
     description='Influx service to automatically generate RPs and switch requests automatically between Grafana and InfluxDB',
     url='https://github.com/howlets/influxdb_downsampling',
     author='Mykola Kondratiuk',
     author_email='howlets.io@gmail.com',
-    download_url='https://github.com/howlets/influxdb_downsampling/archive/0.0.2.tar.gz',
+    download_url='https://github.com/howlets/influxdb_downsampling/archive/0.0.3.tar.gz',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.7'
+        'Programming Language :: Python :: 3.8'
     ],
     setup_requires=[
         'pytest-runner',

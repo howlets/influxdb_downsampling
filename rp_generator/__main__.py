@@ -7,6 +7,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from rp_generator.influx_worker.rp_handler import generate_rps
 from rp_generator.api.restplus import api
 from logger.logging import service_logger
+from rp_generator.influx_worker.env_verifier import check_env_variables
 import os
 from flask import Flask
 
@@ -52,6 +53,7 @@ def schedule_jobs():
 def main():
     log.info(msg=f"Starting Influx RP Generator service on port: {settings.SERVER_PORT}")
     app = create_app()
+    check_env_variables()
     schedule_jobs()
     app.run(
         debug=settings.FLASK_DEBUG,
