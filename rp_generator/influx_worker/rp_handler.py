@@ -25,7 +25,7 @@ def get_influx_dbs():
     while True:
         try:
             dbs = _influx_client().get_list_database()
-            return False
+            break
         except Exception as err:
             print(f"Can`t connect to InfluxDB: {settings.INFLUXDB_URL} \nRetry in 10 seconds")
             time.sleep(10)
