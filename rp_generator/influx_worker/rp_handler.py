@@ -3,6 +3,7 @@ from influxdb import InfluxDBClient
 from urllib.parse import urlparse
 import traceback
 import rp_generator.settings as settings
+import time
 import json
 
 log = service_logger()
@@ -21,7 +22,14 @@ def get_influx_dbs():
     """Instantiate a connection to the InfluxDB."""
     dbs_list = []
     db_exclude = ['_internal']
-    dbs = _influx_client().get_list_database()
+    while True:
+        try:
+            dbs = _influx_client().get_list_database()
+            return False
+        except Exception as err:
+            print(f"Can`t connect to InfluxDB: {settings.INFLUXDB_URL} \nRetry in 10 seconds")
+            time.sleep(10)
+            continue
 
     for db in dbs:
         if db['name'] not in db_exclude:
