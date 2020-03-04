@@ -4,3 +4,8 @@ python:
   - "3.8"
 install: pip install tox-travis
 script: tox
+
+deploy:
+  provider: pypi
+  user: "__token__"
+  password: "pypi-AgEIcHlwaS5vcmcCJDRmNjAzZGNjLTdmNWMtNDI3Yy1hYjIyLWRlMDJlNzMxODE1ZAACJXsicGVybWlzc2lvbnMiOiAidXNlciIsICJ2ZXJzaW9uIjogMX0AAAYgtxxfetms-gd8NmtrUPxI9QhOfDllsdVVJzVHmm4AdpQ"
