@@ -40,7 +40,7 @@ tests_require = [],
 
 setup(
     name='influx-rp-generator',
-    packages = ['influx-rp-generator'],
+    packages=find_packages(),
     version='0.0.1',
     license='Apache License 2.0',
     description='Influx service to automatically generate RPs and switch requests automatically between Grafana and InfluxDB',
