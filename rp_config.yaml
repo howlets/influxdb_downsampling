@@ -1,6 +1,6 @@
 default_rp:
   name: 'autogen'
-  duration: '7d'
+  duration: '30d'
 
 custom_rp:
   - name: 'long_term'
