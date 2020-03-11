@@ -8,7 +8,6 @@ Ubuntu: https://linuxize.com/post/how-to-install-python-3-8-on-ubuntu-18-04/
 Install and configure service
 ```
 python3.8 -m pip install influx-rp-generator
-python3.8 -m pip prepare influx-rp-generator
 ```
 
 Prepare YAML config file for your retentions
