@@ -34,9 +34,12 @@ Where 127.0.0.1 is the IP address of the server where you installed influx-rp-ge
 ![image](https://user-images.githubusercontent.com/61619927/77069954-07acf900-69f2-11ea-9215-9f683dc05f40.png)
 
 How to run with ENV variables:
+```
 export INFLUXDB_USER=grafana, export INFLUXDB_PASS=grafana; influx-rp-generator
+```
 
 Existing ENV variables:
+```
 |Variable name|Description|Default|
 |---|---|---|
 |PATH_TO_RP_CONFIG|Location of retention config file | /opt/influx-rp-generator/rp_config.yaml |
@@ -44,3 +47,4 @@ Existing ENV variables:
 |INFLUXDB_USER|User who has access to InfluxDB|grafana|
 |INFLUXDB_PASS|Password for the user|grafana|
 |RP_CHECK_TIME|How often need to check and update retention policies and CQ (in seconds)|30|
+```
