@@ -30,9 +30,8 @@ Change URL to InfluxDB inside Grafana Data Source:
 ```
 URL = http://127.0.0.1:8080/influx
 Where 127.0.0.1 is the IP address of the server where you installed influx-rp-generator
-
-![image](https://user-images.githubusercontent.com/61619927/77069954-07acf900-69f2-11ea-9215-9f683dc05f40.png)
 ```
+![image](https://user-images.githubusercontent.com/61619927/77069954-07acf900-69f2-11ea-9215-9f683dc05f40.png)
 
 How to run with ENV variables:
 export INFLUXDB_USER=grafana, export INFLUXDB_PASS=grafana; influx-rp-generator
