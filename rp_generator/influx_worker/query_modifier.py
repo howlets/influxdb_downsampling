@@ -1,8 +1,13 @@
 import time
 from rp_generator.settings import RP_CONFIG
+from logger.logging import service_logger
+
+log = service_logger()
 
 
 def _modify_query(query, rp_name):
+    log.debug(msg=f"_modify_query: query - {query}, rp_name - {rp_name}")
+
     current_rp = query.split("FROM ")[1].split(" ")[0]
 
     if len(current_rp.split(".")) >= 2:
@@ -18,12 +23,16 @@ def _modify_query(query, rp_name):
 
 
 def days_to_seconds(time_in_days):
+    log.debug(msg=f"days_to_seconds: time_in_days - {time_in_days}")
+
     duration_in_sec = int(time_in_days.replace('d', '')) * 86400
 
     return duration_in_sec
 
 
 def _identify_rp(time_range):
+    log.debug(msg=f"_identify_rp: time_range - {time_range}")
+
     if time_range < days_to_seconds(RP_CONFIG['default_rp']['duration']):
         return RP_CONFIG['default_rp']['name']
 
@@ -33,6 +42,8 @@ def _identify_rp(time_range):
 
 
 def _process_dynamic_time(query):
+    log.debug(msg=f"_process_dynamic_time: query - {query}")
+
     current_milli_time = int(round(time.time() * 1000))
     time_from_now = query.split("ms")[0]
     time_diff = round((int(current_milli_time) - int(time_from_now)) / 1000)
@@ -41,6 +52,8 @@ def _process_dynamic_time(query):
 
 
 def _process_static_time(query):
+    log.debug(msg=f"_process_static_time: query - {query}")
+
     seconds_per_unit = {"s": 1, "m": 60, "h": 3600, "d": 86400, "w": 604800}
     time_from_now = query.split(" ")[2]
     time_in_seconds = int(time_from_now[:-1]) * seconds_per_unit[time_from_now[-1]]
@@ -49,6 +62,8 @@ def _process_static_time(query):
 
 
 def main_query_changer(query, rp_name=None):
+    log.debug(msg=f"main_query_changer: query - {query}, rp_name - {rp_name}")
+
     if 'SHOW RETENTION POLICIES' in query:
         return query
 
