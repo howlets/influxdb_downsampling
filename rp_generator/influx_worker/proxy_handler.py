@@ -4,6 +4,9 @@ import requests
 from flask import request
 from flask import Response
 import json
+from logger.logging import service_logger
+
+log = service_logger()
 
 
 class HandleRequest(object):

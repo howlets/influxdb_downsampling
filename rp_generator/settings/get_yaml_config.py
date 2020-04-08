@@ -2,7 +2,7 @@ import yaml
 import os
 
 
-PATH_TO_RP_CONFIG = os.getenv('PATH_TO_RP_CONFIG', f'/opt/influx-rp-generator/rp_config.yaml')
+PATH_TO_RP_CONFIG = os.getenv('PATH_TO_RP_CONFIG', f'../rp_config.yaml')
 PWD = os.path.dirname(os.path.abspath(__file__))
 
 

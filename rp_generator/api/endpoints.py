@@ -13,9 +13,16 @@ class InfluxProxy(Resource):
 
     @staticmethod
     def get(path):
+        log.debug(msg=f"Receive request from /influx endpoint. Path: {path}")
+
         params = dict(request.args)
+        log.debug(msg=f"Params: {params}")
+
         data = HandleRequest(query_parameters=params, path=path)
+        log.debug(msg=f"Data: {data}")
+
         response = data.process()
+        log.debug(msg=f"Response: {response}")
 
         return response
 
