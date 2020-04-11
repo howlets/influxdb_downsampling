@@ -11,9 +11,22 @@ log = service_logger()
 
 class HandleRequest(object):
 	def __init__(self, query_parameters, path):
-		self.query_parameters = query_parameters
+		self.query_parameters = self.decorate_params(query_parameters)
 		self.path = path
 		self.default_rps = settings.RP_CONFIG['default_rp']['name']
+
+	@staticmethod
+	def decorate_params(query_parameters: dict) -> dict:
+		log.debug(msg=f"Start decorating query_parameters: {query_parameters}")
+		new_params = {}
+		for key, value in query_parameters.items():
+			if isinstance(value, list):
+				new_params[key] = value[0]
+			else:
+				new_params[key] = value
+		log.debug(msg=f"Stop decorating query_parameters: {new_params}")
+
+		return new_params
 
 	@staticmethod
 	def handle_result(content):
