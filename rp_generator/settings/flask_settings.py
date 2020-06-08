@@ -13,6 +13,6 @@ RESTPLUS_MASK_SWAGGER = os.getenv('RESTPLUS_MASK_SWAGGER', False)
 RESTPLUS_ERROR_404_HELP = os.getenv('RESTPLUS_ERROR_404_HELP', False)
 
 # Logging
-LOG_PATH = os.getenv('LOG_PATH', '/var/log/influx-rp-generator/')
-SERVICE_NAME = os.getenv('SERVICE_NAME', 'influx_proxy')
+LOG_PATH = os.getenv('LOG_PATH', '/var/log/influx-rp-generator')
+SERVICE_NAME = os.getenv('SERVICE_NAME', 'influx-rp-generator')
 LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')

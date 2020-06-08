@@ -20,7 +20,7 @@ def configure_logger(name='default'):
                 'class': 'logging.FileHandler',
                 'formatter': 'default',
                 'mode': 'a',
-                'filename': settings.LOG_PATH
+                'filename': f'{settings.LOG_PATH}/{settings.SERVICE_NAME}.log'
             }
         },
         'loggers': {
