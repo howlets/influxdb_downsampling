@@ -39,7 +39,7 @@ class HandleRequest(object):
 	def process_influx(self):
 		headers = request.headers
 		cookies = request.cookies
-		print(f"Query to Influx: {self.query_parameters}")
+		log.debug(msg=f"Query to Influx: {self.query_parameters}")
 		r = requests.get(
 			url=settings.INFLUXDB_URL + '/' + self.path,
 			params=self.query_parameters,
@@ -48,7 +48,7 @@ class HandleRequest(object):
 			stream=True
 		)
 
-		print(f"Content: {r.content}: InfluxQuery: {self.query_parameters}")
+		log.debug(msg=f"Content: {r.content}: InfluxQuery: {self.query_parameters}")
 		excluded_headers = ['content-length', 'server', 'content-encoding']
 		headers = [(name, value) for (name, value) in r.raw.headers.items() if name.lower() not in excluded_headers]
 		response = Response(r.content, r.status_code, headers)
