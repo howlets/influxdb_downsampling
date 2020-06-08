@@ -27,7 +27,7 @@ def get_influx_dbs():
             dbs = _influx_client().get_list_database()
             break
         except Exception as err:
-            print(f"Can`t connect to InfluxDB: {settings.INFLUXDB_URL} \nRetry in 10 seconds")
+            log.error(msg=f"Can`t connect to InfluxDB: {settings.INFLUXDB_URL} \nRetry in 10 seconds")
             time.sleep(10)
             continue
 
@@ -68,7 +68,6 @@ def _create_cq(rp_name, aggr_period, db_name, previous_rp):
 
     for measurement in measurement_list:
         select_values = show_field_keys(measurement['name'], db_name)
-        print(select_values)
         cq_name = f"cq_{rp_name}_{measurement['name']}"
         query_create = f"""
         CREATE CONTINUOUS QUERY "{cq_name}" ON "{db_name}"
@@ -111,7 +110,7 @@ def check_default_rp_duration(db_name):
                     duration=settings.RP_CONFIG['default_rp']['duration'],
                     default=True
                 )
-                print(f"Duration of default RP: {rp['name']} has been changed to {settings.RP_CONFIG['default_rp']['duration']}\nResult: {modify_default_rp}")
+                log.debug(msg=f"Duration of default RP: {rp['name']} has been changed to {settings.RP_CONFIG['default_rp']['duration']}\nResult: {modify_default_rp}")
 
 
 def generate_rps():
