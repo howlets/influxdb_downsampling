@@ -47,3 +47,5 @@ Existing ENV variables:
 |INFLUXDB_USER|User who has access to InfluxDB|grafana|
 |INFLUXDB_PASS|Password for the user|grafana|
 |RP_CHECK_TIME|How often need to check and update retention policies and CQ (in seconds)|30|
+|LOG_LEVEL|Log level of the service|INFO|
+|LOG_PATH|Directory to store log files|/var/log/influx-rp-generator/|

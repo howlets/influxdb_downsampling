@@ -76,7 +76,7 @@ def _create_cq(rp_name, aggr_period, db_name, previous_rp):
         SELECT {select_values} INTO "{db_name}"."{rp_name}"."{measurement['name']}" FROM {db_name}."{previous_rp}"."{measurement['name']}" GROUP BY time({aggr_period}), *
         END """
 
-        log.info(f"rp_name: {rp_name}, query_create: {query_create}, previous_rp: {previous_rp}")
+        log.debug(f"rp_name: {rp_name}, query_create: {query_create}, previous_rp: {previous_rp}")
 
         try:
             _influx_client().query(query_create, database=db_name)
@@ -85,12 +85,12 @@ def _create_cq(rp_name, aggr_period, db_name, previous_rp):
                 query_drop = f""" DROP CONTINUOUS QUERY {cq_name} ON "{db_name}" """
                 _influx_client().query(query_drop, database=db_name)
                 _influx_client().query(query_create, database=db_name)
-                log.info(f"Drop CQ: cq_{rp_name}_{measurement['name']} for db:{db_name}")
+                log.debug(f"Drop CQ: cq_{rp_name}_{measurement['name']} for db:{db_name}")
             except Exception as err:
                 log.error(msg=f"Can`t create RP: {err}")
                 continue
 
-        log.info(f"Create CQ: cq_{rp_name}_{measurement['name']} for db:{db_name}")
+        log.debug(f"Create CQ: cq_{rp_name}_{measurement['name']} for db:{db_name}")
 
 
 def days_to_hours(time_in_days):
@@ -124,7 +124,7 @@ def generate_rps():
         for custom_rp in settings.RP_CONFIG['custom_rp']:
             if custom_rp['name'] != settings.RP_CONFIG['default_rp']['name']:
                 try:
-                    log.info(f"Create rp: {custom_rp['name']} for db: {db_name}")
+                    log.debug(f"Create rp: {custom_rp['name']} for db: {db_name}")
                     _influx_client().create_retention_policy(custom_rp['name'], custom_rp['duration'], 1, database=db_name)
                     _create_cq(custom_rp['name'], custom_rp['aggregation'], db_name, previous_rp)
                     previous_rp = custom_rp['name']

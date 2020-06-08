@@ -8,7 +8,7 @@ with open('requirements.txt') as f:
 
 
 def create_directories():
-    directories = ['/opt/influx-rp-generator/']
+    directories = ['/opt/influx-rp-generator/', '/var/log/influx-rp-generator/']
     print(f'Start creating directories: {directories}')
     for directory in directories:
         try:
@@ -36,13 +36,13 @@ tests_require = [],
 setup(
     name='influx-rp-generator',
     packages=find_packages(),
-    version='0.0.11',
+    version='0.0.12',
     license='Apache License 2.0',
     description='Influx service to automatically generate RPs and switch requests automatically between Grafana and InfluxDB',
     url='https://github.com/howlets/influxdb_downsampling',
     author='Mykola Kondratiuk',
     author_email='howlets.io@gmail.com',
-    download_url='https://github.com/howlets/influxdb_downsampling/archive/0.0.11.tar.gz',
+    download_url='https://github.com/howlets/influxdb_downsampling/archive/0.0.12.tar.gz',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',

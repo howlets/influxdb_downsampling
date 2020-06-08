@@ -3,7 +3,7 @@ import logging.config
 import rp_generator.settings as settings
 
 
-def configure_logger(name='default', log_path=settings.LOG_PATH):
+def configure_logger(name='default'):
     logging.config.dictConfig({'version': 1, 'formatters': {
         'default': {
             'format': '%(asctime)s - %(levelname)s - %(message)s', 'datefmt': '%Y-%m-%d %H:%M:%S'
@@ -13,12 +13,20 @@ def configure_logger(name='default', log_path=settings.LOG_PATH):
                 'level': settings.LOG_LEVEL,
                 'class': 'logging.StreamHandler',
                 'formatter': 'default',
-                'stream': 'ext://sys.stdout'}
+                'stream': 'ext://sys.stdout'
+            },
+            'file': {
+                'level': settings.LOG_LEVEL,
+                'class': 'logging.FileHandler',
+                'formatter': 'default',
+                'mode': 'a',
+                'filename': settings.LOG_PATH
+            }
         },
         'loggers': {
             'default': {
                 'level': settings.LOG_LEVEL,
-                'handlers': ['console']
+                'handlers': ['console', 'file']
             }
         },
         'disable_existing_loggers': False
